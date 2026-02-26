@@ -6,11 +6,17 @@ async function bootstrap() {
 
   // CORS 설정 (로컬 크롬 확장에서만 접근 허용)
   app.enableCors({
-    origin: [
-      'chrome-extension://*',
-      'http://localhost:*',
-      'http://127.0.0.1:*',
-    ],
+    origin: (origin, callback) => {
+      // chrome-extension, localhost, 127.0.0.1 허용
+      if (!origin ||
+          origin.startsWith('chrome-extension://') ||
+          origin.startsWith('http://localhost') ||
+          origin.startsWith('http://127.0.0.1')) {
+        callback(null, true);
+      } else {
+        callback(new Error('Not allowed by CORS'));
+      }
+    },
     methods: ['GET', 'POST'],
   });
 

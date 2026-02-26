@@ -238,7 +238,7 @@ function renderOrchestrator() {
 
   return `
     <div class="am-orchestrator-card ${isWorking ? 'working' : ''}">
-      <div class="am-orchestrator-card-header">
+      <div class="am-orchestrator-card-header" style="display: flex; align-items: center; gap: 16px;">
         <div class="am-orchestrator-avatar">
           ${agentCharacters.orchestrator}
         </div>
