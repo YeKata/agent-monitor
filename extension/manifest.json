@@ -1,0 +1,28 @@
+{
+  "manifest_version": 3,
+  "name": "Agent Monitor",
+  "version": "2.1.1",
+  "description": "AI 에이전트 오케스트레이션 실시간 모니터링",
+  "permissions": ["storage"],
+  "host_permissions": ["http://localhost:2026/*"],
+  "action": {
+    "default_title": "Agent Monitor"
+  },
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"],
+      "css": ["overlay.css"]
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["overlay.css"],
+      "matches": ["<all_urls>"]
+    }
+  ]
+}

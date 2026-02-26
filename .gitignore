@@ -1,0 +1,44 @@
+# Dependencies
+node_modules/
+
+# Build output
+server/dist/
+shared/dist/
+
+# Coverage (contains local paths)
+coverage/
+**/coverage/
+
+# History file
+server/history.json
+
+# Environment
+.env
+.env.local
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Lock files (optional - uncomment if you want to exclude)
+# package-lock.json
+# pnpm-lock.yaml
+
+# Development docs
+REDESIGN_COMPLETE.md
+extension/MODULARIZATION_SUMMARY.md
+extension/MODULE_MAPPING.md
+extension/QUICK_START.md
+
+# Test files
+**/__tests__/
+scripts/
