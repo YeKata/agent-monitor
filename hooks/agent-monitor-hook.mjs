@@ -128,7 +128,7 @@ function extractPromptFromTranscript(transcriptPath) {
       // 첫 메시지의 content가 프롬프트
       const prompt = parsed.message?.content || '';
       log(`Extracted prompt from transcript: ${prompt.slice(0, 100)}`);
-      return prompt.slice(0, 200);
+      return prompt;
     }
   } catch (e) {
     log(`Failed to extract prompt: ${e.message}`);
@@ -170,7 +170,7 @@ async function processHook(action, data) {
   const agentId = normalizeAgentId(agentType);
   const uniqueAgentId = data.agent_id || agentId; // Claude가 부여한 고유 ID 사용
   const description = data.description || '';
-  const prompt = data.prompt?.slice(0, 200) || '';
+  const prompt = data.prompt || '';
   const taskDescription = description || prompt;
 
   let event;

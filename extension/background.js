@@ -26,7 +26,7 @@ function connect() {
     resetHeartbeatTimer(); // 메시지 받을 때마다 타이머 리셋
     try {
       const data = JSON.parse(event.data);
-      console.log('[Agent Monitor] SSE received:', data.type, data.type === 'approval' ? data.data : '');
+      console.log('[Agent Monitor] SSE received:', data.type);
       broadcastToTabs(data);
     } catch (e) {
       console.error('[Agent Monitor] Parse error:', e);
