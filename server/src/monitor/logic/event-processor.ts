@@ -12,7 +12,6 @@ export interface EventProcessorCallbacks {
   onOrchestratorEvent: (data: any) => void;
   onHistoryEvent: (item: HistoryItem) => void;
   onClearEvent: (data: { target: string; timestamp: string }) => void;
-  onApprovalEvent?: (data: { title: string; message: string; timestamp: string }) => void;
 }
 
 /**
@@ -50,22 +49,6 @@ export class EventProcessor {
       case 'clear:all':
         this.handleClearAll();
         break;
-      case 'approval:waiting':
-        this.handleApprovalWaiting(event);
-        break;
-    }
-  }
-
-  /**
-   * 승인 대기 알림
-   */
-  handleApprovalWaiting(event: AgentEvent): void {
-    if (this.callbacks.onApprovalEvent) {
-      this.callbacks.onApprovalEvent({
-        title: (event as any).title || 'Approval Required',
-        message: (event as any).message || '',
-        timestamp: event.timestamp,
-      });
     }
   }
 

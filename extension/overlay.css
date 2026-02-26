@@ -368,6 +368,22 @@
   background: linear-gradient(90deg, rgba(0, 255, 136, 0.3), transparent);
 }
 
+.am-section-title.am-collapsible {
+  cursor: pointer;
+  user-select: none;
+  transition: background 0.2s;
+}
+
+.am-section-title.am-collapsible:hover {
+  background: rgba(5, 10, 20, 0.9);
+  border-color: rgba(0, 255, 136, 0.4);
+}
+
+.am-collapse-icon {
+  font-size: 10px;
+  transition: transform 0.2s;
+}
+
 /* 에이전트 카드 그리드 */
 .am-agents-grid {
   display: grid;
@@ -788,26 +804,45 @@
   max-height: 400px;
 }
 
-/* 스크롤바 */
-.am-history-list::-webkit-scrollbar,
-#agent-monitor-overlay::-webkit-scrollbar {
+/* 커스텀 스크롤바 - 전역 적용 */
+#agent-monitor-overlay,
+#agent-monitor-overlay *,
+.am-detail-content {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 255, 136, 0.3) transparent;
+  scrollbar-gutter: stable;
+}
+
+#agent-monitor-overlay::-webkit-scrollbar,
+#agent-monitor-overlay *::-webkit-scrollbar,
+.am-detail-content::-webkit-scrollbar {
   width: 6px;
+  height: 6px;
 }
 
-.am-history-list::-webkit-scrollbar-track,
-#agent-monitor-overlay::-webkit-scrollbar-track {
-  background: rgba(0, 0, 0, 0.2);
+#agent-monitor-overlay::-webkit-scrollbar-track,
+#agent-monitor-overlay *::-webkit-scrollbar-track,
+.am-detail-content::-webkit-scrollbar-track {
+  background: transparent;
 }
 
-.am-history-list::-webkit-scrollbar-thumb,
-#agent-monitor-overlay::-webkit-scrollbar-thumb {
+#agent-monitor-overlay::-webkit-scrollbar-thumb,
+#agent-monitor-overlay *::-webkit-scrollbar-thumb,
+.am-detail-content::-webkit-scrollbar-thumb {
   background: rgba(0, 255, 136, 0.3);
   border-radius: 3px;
 }
 
-.am-history-list::-webkit-scrollbar-thumb:hover,
-#agent-monitor-overlay::-webkit-scrollbar-thumb:hover {
+#agent-monitor-overlay::-webkit-scrollbar-thumb:hover,
+#agent-monitor-overlay *::-webkit-scrollbar-thumb:hover,
+.am-detail-content::-webkit-scrollbar-thumb:hover {
   background: rgba(0, 255, 136, 0.5);
+}
+
+#agent-monitor-overlay::-webkit-scrollbar-corner,
+#agent-monitor-overlay *::-webkit-scrollbar-corner,
+.am-detail-content::-webkit-scrollbar-corner {
+  background: transparent;
 }
 
 /* 히스토리 상세 모달 */
@@ -997,64 +1032,4 @@
   border-color: rgba(168, 85, 247, 0.4);
   color: #a855f7;
   text-shadow: 0 0 6px rgba(168, 85, 247, 0.5);
-}
-
-/* 토스트 알림 */
-#agent-monitor-toast {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  z-index: 2147483647;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 16px 20px;
-  background: rgba(5, 10, 20, 0.95);
-  border: 1px solid rgba(255, 193, 7, 0.6);
-  border-radius: 4px;
-  font-family: 'Courier New', 'Consolas', 'Monaco', monospace;
-  box-shadow: 0 0 30px rgba(255, 193, 7, 0.3), 0 4px 20px rgba(0, 0, 0, 0.5);
-  cursor: pointer;
-  transform: translateX(120%);
-  opacity: 0;
-  transition: all 0.3s ease;
-}
-
-#agent-monitor-toast.show {
-  transform: translateX(0);
-  opacity: 1;
-}
-
-#agent-monitor-toast .toast-icon {
-  font-size: 24px;
-  animation: toast-pulse 1s infinite;
-}
-
-@keyframes toast-pulse {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.1); }
-}
-
-#agent-monitor-toast .toast-content {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-#agent-monitor-toast .toast-title {
-  font-size: 12px;
-  font-weight: 700;
-  color: #ffc107;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  text-shadow: 0 0 8px rgba(255, 193, 7, 0.5);
-}
-
-#agent-monitor-toast .toast-message {
-  font-size: 11px;
-  color: #ddd;
-  max-width: 250px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
 }

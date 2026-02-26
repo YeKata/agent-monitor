@@ -8,7 +8,6 @@ Claude Code 에이전트 실시간 모니터링 크롬 확장 프로그램.
 - 오케스트레이터 상태 표시
 - 에이전트 작업 히스토리
 - 드래그 가능한 인디케이터 (위치 저장)
-- **승인 대기 토스트 알림** - Claude가 승인을 기다릴 때 알림
 
 ## 설치
 
@@ -87,17 +86,6 @@ pnpm run start
           }
         ]
       }
-    ],
-    "Notification": [
-      {
-        "matcher": "",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "node /path/to/hooks/notification-hook.mjs"
-          }
-        ]
-      }
     ]
   }
 }
@@ -126,6 +114,5 @@ agent-monitor/
 ├── extension/       # 크롬 확장 프로그램
 └── hooks/           # Claude Code 훅
     ├── orchestrator-monitor-hook.mjs
-    ├── agent-monitor-hook.mjs
-    └── notification-hook.mjs
+    └── agent-monitor-hook.mjs
 ```

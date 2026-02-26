@@ -9,8 +9,7 @@ export type AgentEventType =
   | 'tool:call'
   | 'orchestrator:status'
   | 'clear:agents'
-  | 'clear:all'
-  | 'approval:waiting';
+  | 'clear:all';
 
 // 에이전트 상태
 export type AgentStatus = 'running' | 'completed' | 'error';
@@ -74,7 +73,7 @@ export interface AvailableAgentInfo {
 }
 
 // SSE 이벤트 타입
-export type SSEEventType = 'agent' | 'orchestrator' | 'history' | 'init' | 'clear' | 'approval';
+export type SSEEventType = 'agent' | 'orchestrator' | 'history' | 'init' | 'clear';
 
 // SSE 이벤트
 export interface SSEEvent {

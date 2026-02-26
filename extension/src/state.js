@@ -9,6 +9,9 @@ export let viewMode = localStorage.getItem('agent-monitor-view-mode') || 'mini';
 const savedPosition = JSON.parse(localStorage.getItem('agent-monitor-position') || 'null');
 export let indicatorPosition = savedPosition || { right: 20, bottom: 20 };
 
+// 섹션 접힘 상태 (localStorage에서 복원)
+export let availableAgentsCollapsed = localStorage.getItem('agent-monitor-available-collapsed') === 'true';
+
 export const state = {
   connected: false,
   orchestrator: { status: 'idle', task: '' },
@@ -29,4 +32,8 @@ export function setViewMode(val) {
 export function setIndicatorPosition(pos) {
   indicatorPosition = pos;
   localStorage.setItem('agent-monitor-position', JSON.stringify(pos));
+}
+export function setAvailableAgentsCollapsed(val) {
+  availableAgentsCollapsed = val;
+  localStorage.setItem('agent-monitor-available-collapsed', val ? 'true' : 'false');
 }

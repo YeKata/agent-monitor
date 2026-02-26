@@ -7,9 +7,10 @@
   let viewMode = localStorage.getItem("agent-monitor-view-mode") || "mini";
   const savedPosition = JSON.parse(localStorage.getItem("agent-monitor-position") || "null");
   let indicatorPosition = savedPosition || { right: 20, bottom: 20 };
+  let availableAgentsCollapsed = localStorage.getItem("agent-monitor-available-collapsed") === "true";
   const state = {
     connected: false,
-    orchestrator: { status: "idle" },
+    orchestrator: { status: "idle", task: "" },
     agents: [],
     history: [],
     availableAgents: [],
@@ -35,6 +36,10 @@
   function setIndicatorPosition(pos) {
     indicatorPosition = pos;
     localStorage.setItem("agent-monitor-position", JSON.stringify(pos));
+  }
+  function setAvailableAgentsCollapsed(val) {
+    availableAgentsCollapsed = val;
+    localStorage.setItem("agent-monitor-available-collapsed", val ? "true" : "false");
   }
   const agentCharacters = {
     orchestrator: `
@@ -616,6 +621,9 @@
       if (e.target.closest('[data-action="toggle-mode"]')) {
         toggleViewMode();
       }
+      if (e.target.closest('[data-action="toggle-available"]')) {
+        toggleAvailableAgents();
+      }
       const historyItem = e.target.closest(".am-history-item");
       if (historyItem && historyItem.dataset.history) {
         try {
@@ -626,6 +634,30 @@
         }
       }
     });
+  }
+  function toggleAvailableAgents() {
+    setAvailableAgentsCollapsed(!availableAgentsCollapsed);
+    renderOverlay();
+  }
+  function getAvailableAgentCount() {
+    const defaultAgentTypes = [
+      "architect",
+      "executor",
+      "designer",
+      "explore",
+      "researcher",
+      "scientist",
+      "planner",
+      "code-reviewer",
+      "writer",
+      "vue-expert",
+      "ui-designer",
+      "mlops-engineer"
+    ];
+    if (state.availableAgents && state.availableAgents.length > 0) {
+      return state.availableAgents.length;
+    }
+    return defaultAgentTypes.length;
   }
   function renderOverlay() {
     if (!overlay) return;
@@ -640,10 +672,15 @@
           ${state.agents.map((agent) => renderAgentCard(agent)).join("")}
         </div>
       ` : ""}
-      <div class="am-section-title">Available Agents</div>
-      <div class="am-agents-grid">
-        ${renderAllAgentsGrid()}
+      <div class="am-section-title am-collapsible" data-action="toggle-available">
+        <span class="am-collapse-icon">${availableAgentsCollapsed ? "▶" : "▼"}</span>
+        Available Agents (${getAvailableAgentCount()})
       </div>
+      ${!availableAgentsCollapsed ? `
+        <div class="am-agents-grid">
+          ${renderAllAgentsGrid()}
+        </div>
+      ` : ""}
       ${renderHistory()}
     </div>
   `;
@@ -838,18 +875,26 @@
     setupHistoryScroll();
     overlay.classList.add("am-visible");
     setIsVisible(true);
-    chrome.runtime.sendMessage({ type: "getState" }, (response) => {
-      if (response == null ? void 0 : response.success) {
-        state.orchestrator = response.data.orchestrator;
-        state.agents = response.data.agents;
-        state.history = response.data.history;
-        state.availableAgents = response.data.availableAgents || [];
-        state.connected = true;
-        console.log("[Agent Monitor] getState received, availableAgents:", state.availableAgents.length);
-        renderOverlay();
-        setupHistoryScroll();
-      }
-    });
+    try {
+      chrome.runtime.sendMessage({ type: "getState" }, (response) => {
+        if (chrome.runtime.lastError) {
+          console.log("[Agent Monitor] Extension context invalidated, please refresh the page");
+          return;
+        }
+        if (response == null ? void 0 : response.success) {
+          state.orchestrator = response.data.orchestrator;
+          state.agents = response.data.agents;
+          state.history = response.data.history;
+          state.availableAgents = response.data.availableAgents || [];
+          state.connected = true;
+          console.log("[Agent Monitor] getState received, availableAgents:", state.availableAgents.length);
+          renderOverlay();
+          setupHistoryScroll();
+        }
+      });
+    } catch (e) {
+      console.log("[Agent Monitor] Extension context invalidated, please refresh the page");
+    }
   }
   function hideOverlay() {
     if (overlay) {
@@ -1054,15 +1099,28 @@
       }
     }
   }
+  function safeSendMessage(message, callback) {
+    try {
+      chrome.runtime.sendMessage(message, (response) => {
+        if (chrome.runtime.lastError) {
+          console.log("[Agent Monitor] Extension context invalidated, please refresh the page");
+          return;
+        }
+        if (callback) callback(response);
+      });
+    } catch (e) {
+      console.log("[Agent Monitor] Extension context invalidated, please refresh the page");
+    }
+  }
   function init() {
-    chrome.runtime.sendMessage({ type: "getConnectionStatus" }, (response) => {
+    safeSendMessage({ type: "getConnectionStatus" }, (response) => {
       if (response) {
         state.connected = response.connected;
       }
       createIndicator();
       updateIndicator();
     });
-    chrome.runtime.sendMessage({ type: "getState" }, (response) => {
+    safeSendMessage({ type: "getState" }, (response) => {
       if (response == null ? void 0 : response.success) {
         state.orchestrator = response.data.orchestrator;
         state.agents = response.data.agents;

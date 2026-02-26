@@ -51,7 +51,6 @@ export class MonitorService implements OnModuleInit, OnModuleDestroy {
         this.events$.next({ type: 'history', data: item });
       },
       onClearEvent: (data) => this.events$.next({ type: 'clear', data }),
-      onApprovalEvent: (data) => this.events$.next({ type: 'approval', data }),
     });
 
     // OMCWatcher 초기화
