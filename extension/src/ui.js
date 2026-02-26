@@ -238,16 +238,20 @@ function renderOrchestrator() {
 
   return `
     <div class="am-orchestrator-card ${isWorking ? 'working' : ''}">
-      <div class="am-orchestrator-avatar">
-        ${agentCharacters.orchestrator}
+      <div class="am-orchestrator-card-header">
+        <div class="am-orchestrator-avatar">
+          ${agentCharacters.orchestrator}
+        </div>
+        <div class="am-orchestrator-info">
+          <div class="am-orchestrator-name">Orchestrator</div>
+          <div class="am-orchestrator-role">${agentDescriptions.orchestrator}</div>
+        </div>
       </div>
-      <div class="am-orchestrator-info">
-        <div class="am-orchestrator-name">Orchestrator</div>
-        <div class="am-orchestrator-role">${agentDescriptions.orchestrator}</div>
-        <div class="am-orchestrator-status ${isWorking ? 'working' : 'idle'}">
+      <div class="am-orchestrator-footer">
+        <span class="am-orchestrator-status ${isWorking ? 'working' : 'idle'}">
           <span class="status-dot"></span>
           <span>${isWorking ? `Coordinating ${activeCount > 0 ? activeCount + ' agent' + (activeCount !== 1 ? 's' : '') : '...'}` : 'Idle'}</span>
-        </div>
+        </span>
       </div>
     </div>
   `;

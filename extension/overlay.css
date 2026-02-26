@@ -203,14 +203,20 @@
   background: rgba(5, 10, 20, 0.85);
   border: 1px solid rgba(102, 126, 234, 0.4);
   border-radius: 2px;
-  padding: 24px;
+  padding: 20px;
   display: flex;
-  align-items: center;
-  gap: 24px;
+  flex-direction: column;
+  gap: 16px;
   transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
   box-shadow: 0 0 30px rgba(102, 126, 234, 0.15);
+}
+
+.am-orchestrator-card-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
 }
 
 .am-orchestrator-card::before {
@@ -286,9 +292,14 @@
 .am-orchestrator-role {
   font-size: 12px;
   color: #bbb;
-  margin-bottom: 12px;
   text-transform: uppercase;
   letter-spacing: 1px;
+}
+
+.am-orchestrator-footer {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
 }
 
 .am-orchestrator-status {
@@ -621,33 +632,68 @@
 
 #agent-monitor-overlay.mini-mode .am-container {
   max-width: 100%;
-  gap: 16px;
-  padding: 20px;
+  gap: 10px;
+  padding: 12px;
+}
+
+#agent-monitor-overlay.mini-mode .am-header {
+  padding: 10px 12px;
 }
 
 #agent-monitor-overlay.mini-mode .am-orchestrator-card {
-  padding: 16px 20px;
+  padding: 12px;
+  gap: 10px;
+}
+
+#agent-monitor-overlay.mini-mode .am-orchestrator-card-header {
+  gap: 12px;
 }
 
 #agent-monitor-overlay.mini-mode .am-orchestrator-avatar {
-  width: 60px;
-  height: 60px;
-  font-size: 32px;
+  width: 40px;
+  height: 40px;
+  min-width: 40px;
+  min-height: 40px;
+  font-size: 20px;
+}
+
+#agent-monitor-overlay.mini-mode .am-orchestrator-name {
+  font-size: 13px;
+}
+
+#agent-monitor-overlay.mini-mode .am-orchestrator-role {
+  font-size: 10px;
+}
+
+#agent-monitor-overlay.mini-mode .am-orchestrator-status {
+  padding: 4px 10px;
+  font-size: 10px;
+  white-space: nowrap;
+}
+
+#agent-monitor-overlay.mini-mode .am-section-title {
+  padding: 8px 12px;
+  font-size: 10px;
 }
 
 #agent-monitor-overlay.mini-mode .am-agents-grid {
   grid-template-columns: 1fr;
-  gap: 12px;
+  gap: 8px;
 }
 
 #agent-monitor-overlay.mini-mode .am-agent-card {
-  padding: 16px;
+  padding: 12px;
 }
 
 #agent-monitor-overlay.mini-mode .am-agent-avatar {
-  width: 48px;
-  height: 48px;
-  font-size: 24px;
+  width: 40px;
+  height: 40px;
+  font-size: 20px;
+}
+
+#agent-monitor-overlay.mini-mode .am-agent-card-header {
+  gap: 10px;
+  margin-bottom: 10px;
 }
 
 /* 모드 전환 버튼 */
